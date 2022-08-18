@@ -13,6 +13,5 @@ Spark is intended to be a quick, real-time execution engine that can operate onÂ
 
 
 Authors : 
-
-- [Rishekesan S.V](https://github.com/Rishekesan3012)
 - [Karthikeyan M](https://github.com/karthikeyan1708)
+- [Rishekesan S.V](https://github.com/Rishekesan3012)
