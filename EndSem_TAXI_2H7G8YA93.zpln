@@ -1,0 +1,2355 @@
+{
+  "paragraphs": [
+    {
+      "text": "import org.apache.spark.sql.functions._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql._\nimport org.apache.spark.ml._\nimport org.apache.spark.ml.feature._\nimport org.apache.spark.ml.evaluation._\nimport org.apache.spark.sql.types._\n\nimport org.apache.spark._\nimport org.apache.spark.ml._\nimport org.apache.spark.ml.feature._\nimport org.apache.spark.ml.regression._\nimport org.apache.spark.ml.evaluation._\nimport org.apache.spark.ml.tuning._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.ml.Pipeline\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:08:40.194",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.sql.functions._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql._\nimport org.apache.spark.ml._\nimport org.apache.spark.ml.feature._\nimport org.apache.spark.ml.evaluation._\nimport org.apache.spark.sql.types._\nimport org.apache.spark._\nimport org.apache.spark.ml._\nimport org.apache.spark.ml.feature._\nimport org.apache.spark.ml.regression._\nimport org.apache.spark.ml.evaluation._\nimport org.apache.spark.ml.tuning._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.functions._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.ml.Pipeline\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515439_651785815",
+      "id": "paragraph_1656841685196_1328465266",
+      "dateCreated": "2022-07-05 15:51:55.439",
+      "dateStarted": "2022-07-05 16:08:40.211",
+      "dateFinished": "2022-07-05 16:08:58.926",
+      "status": "FINISHED"
+    },
+    {
+      "text": "lazy val schema \u003d\n  StructType(Array(\n    StructField(\"vendor_id\", DoubleType),\n    StructField(\"passenger_count\", DoubleType),\n    StructField(\"trip_distance\", DoubleType),\n    StructField(\"pickup_longitude\", DoubleType),\n    StructField(\"pickup_latitude\", DoubleType),\n    StructField(\"rate_code\", DoubleType),\n    StructField(\"store_and_fwd\", DoubleType),\n    StructField(\"dropoff_longitude\", DoubleType),\n    StructField(\"dropoff_latitude\", DoubleType),\n    StructField(\"fare_amount\", DoubleType),\n    StructField(\"hour\", DoubleType),\n    StructField(\"year\", IntegerType),\n    StructField(\"month\", IntegerType),\n    StructField(\"day\", DoubleType),\n    StructField(\"day_of_week\", DoubleType),\n    StructField(\"is_weekend\", DoubleType)\n  )) ",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:08:58.932",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mschema\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.types.StructType\u001b[0m \u003d \u003clazy\u003e\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515440_993805698",
+      "id": "paragraph_1656841693399_2003610701",
+      "dateCreated": "2022-07-05 15:51:55.440",
+      "dateStarted": "2022-07-05 16:08:58.939",
+      "dateFinished": "2022-07-05 16:08:59.813",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val trainPath \u003d \"/home/rishe/pranav/taxi_small/train/taxi-small.csv\"\nval evalPath  \u003d \"/home/rishe/pranav/taxi_small/eval/taxi-small.csv\"",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:08:59.840",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mtrainPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m \u003d /home/rishe/pranav/taxi_small/train/taxi-small.csv\n\u001b[1m\u001b[34mevalPath\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m \u003d /home/rishe/pranav/taxi_small/eval/taxi-small.csv\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515440_1946053196",
+      "id": "paragraph_1656841702929_1858412663",
+      "dateCreated": "2022-07-05 15:51:55.440",
+      "dateStarted": "2022-07-05 16:08:59.845",
+      "dateFinished": "2022-07-05 16:09:00.409",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val tdf \u003d spark.read.option(\"inferSchema\",\n\"false\").option(\"header\", true).schema(schema).csv(trainPath)\nval edf \u003d spark.read.option(\"inferSchema\", \"false\").option(\"header\",\ntrue).schema(schema).csv(evalPath)",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:09:00.448",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mtdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [vendor_id: double, passenger_count: double ... 14 more fields]\n\u001b[1m\u001b[34medf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [vendor_id: double, passenger_count: double ... 14 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515440_860892031",
+      "id": "paragraph_1656841730046_1333773357",
+      "dateCreated": "2022-07-05 15:51:55.440",
+      "dateStarted": "2022-07-05 16:09:00.456",
+      "dateFinished": "2022-07-05 16:09:03.201",
+      "status": "FINISHED"
+    },
+    {
+      "text": "tdf.select(\"trip_distance\", \"rate_code\",\"fare_amount\").show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:09:03.258",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------------------+-------------+-----------+\n|     trip_distance|    rate_code|fare_amount|\n+------------------+-------------+-----------+\n|              2.72|-6.77418915E8|       11.5|\n|              0.94|-6.77418915E8|        5.5|\n|              3.63|-6.77418915E8|       13.0|\n|11.860000000000003|-6.77418915E8|       33.5|\n|              3.03|-6.77418915E8|       11.0|\n+------------------+-------------+-----------+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d0"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515440_1196900726",
+      "id": "paragraph_1656841740592_1911825391",
+      "dateCreated": "2022-07-05 15:51:55.440",
+      "dateStarted": "2022-07-05 16:09:03.264",
+      "dateFinished": "2022-07-05 16:09:06.155",
+      "status": "FINISHED"
+    },
+    {
+      "text": "tdf.select(\"trip_distance\", \"rate_code\",\"fare_amount\").describe().show",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:09:06.168",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+------------------+--------------------+------------------+\n|summary|     trip_distance|           rate_code|       fare_amount|\n+-------+------------------+--------------------+------------------+\n|  count|              7999|                7999|              7999|\n|   mean| 3.278923615451919|-6.569284350812602E8|12.348543567945994|\n| stddev|3.6320775770793547|1.6677419425906155E8|10.221929466939088|\n|    min|               0.0|       -6.77418915E8|               2.5|\n|    max|35.970000000000006|       1.957796822E9|             107.5|\n+-------+------------------+--------------------+------------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d1"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d2"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515440_1271394472",
+      "id": "paragraph_1656841749803_382662708",
+      "dateCreated": "2022-07-05 15:51:55.440",
+      "dateStarted": "2022-07-05 16:09:06.172",
+      "dateFinished": "2022-07-05 16:09:07.602",
+      "status": "FINISHED"
+    },
+    {
+      "text": "tdf.createOrReplaceTempView(\"TaxiData\")",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:09:07.674",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515440_508986317",
+      "id": "paragraph_1656843485059_543099862",
+      "dateCreated": "2022-07-05 15:51:55.440",
+      "dateStarted": "2022-07-05 16:09:07.678",
+      "dateFinished": "2022-07-05 16:09:08.128",
+      "status": "FINISHED"
+    },
+    {
+      "text": "%sql\nselect trip_distance, fare_amount\nfrom TaxiData",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:09:08.177",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9.0,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "trip_distance": "string",
+                      "fare_amount": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "trip_distance\tfare_amount\n2.72\t11.5\n0.94\t5.5\n3.63\t13.0\n11.860000000000003\t33.5\n3.03\t11.0\n0.16\t3.0\n1.6899999999999997\t8.5\n4.319999999999999\t14.5\n0.6200000000000001\t5.0\n0.56\t4.0\n3.68\t14.0\n16.54\t47.0\n3.63\t13.0\n1.48\t7.5\n7.26\t24.0\n11.14\t37.0\n0.23\t9.5\n3.12\t17.0\n2.3399999999999994\t9.5\n0.58\t4.5\n0.59\t4.0\n1.79\t7.5\n4.78\t16.5\n2.51\t8.5\n0.5\t4.5\n0.68\t5.0\n6.26\t20.0\n1.4199999999999995\t7.5\n1.6299999999999997\t8.5\n10.67\t30.0\n0.93\t5.5\n0.9500000000000001\t5.5\n6.859999999999999\t19.5\n13.68\t37.5\n2.14\t11.0\n0.89\t5.0\n5.95\t20.0\n8.340000000000003\t25.0\n2.7\t12.0\n2.4699999999999998\t9.5\n5.92\t18.0\n2.61\t10.5\n3.61\t11.5\n9.860000000000003\t28.0\n0.7000000000000001\t5.0\n0.7200000000000001\t4.5\n6.37\t19.5\n1.56\t7.0\n1.3999999999999997\t6.0\n3.9899999999999998\t12.5\n1.61\t7.5\n0.08\t4.5\n0.7500000000000001\t5.0\n7.02\t24.0\n8.98\t27.5\n3.22\t13.0\n1.02\t5.5\n3.9499999999999997\t13.5\n1.6299999999999997\t7.0\n8.9\t27.5\n1.32\t6.0\n1.32\t6.5\n1.6799999999999997\t7.5\n2.4299999999999997\t10.0\n2.15\t8.5\n9.0\t25.0\n2.14\t8.5\n3.3899999999999997\t13.0\n1.34\t6.5\n3.65\t12.5\n0.8600000000000001\t4.5\n0.7200000000000001\t5.0\n5.24\t18.0\n4.74\t16.5\n2.8599999999999994\t11.0\n5.39\t19.0\n7.49\t23.0\n2.14\t11.0\n7.31\t26.5\n1.27\t6.5\n5.819999999999999\t22.5\n3.06\t11.0\n1.11\t6.0\n1.6299999999999997\t8.0\n0.6600000000000001\t4.0\n0.67\t4.5\n2.8699999999999997\t11.0\n0.77\t5.0\n1.07\t5.5\n2.3\t9.0\n1.21\t6.5\n3.23\t11.0\n0.79\t5.0\n0.8400000000000001\t4.5\n0.6300000000000001\t5.0\n5.4\t18.5\n3.3799999999999994\t13.5\n3.48\t12.5\n7.94\t25.0\n0.7100000000000001\t4.5\n2.26\t8.5\n1.36\t7.0\n2.07\t9.5\n1.52\t8.0\n1.32\t7.5\n7.26\t21.0\n1.4099999999999995\t7.0\n2.3999999999999995\t10.0\n6.56\t20.0\n0.6\t4.5\n1.1\t5.0\n1.81\t8.0\n17.289999999999996\t52.0\n0.69\t5.0\n4.74\t15.5\n3.66\t12.5\n1.61\t7.0\n1.56\t7.0\n2.63\t11.0\n2.66\t9.0\n2.28\t10.0\n7.26\t22.5\n1.1599999999999997\t6.5\n0.7300000000000001\t4.5\n3.9099999999999997\t19.0\n0.67\t4.0\n10.620000000000001\t30.5\n2.04\t9.5\n2.4699999999999998\t10.5\n1.56\t7.0\n0.7300000000000001\t4.0\n1.1299999999999997\t7.0\n1.07\t7.5\n1.6499999999999997\t7.0\n3.8599999999999994\t15.0\n3.74\t12.5\n1.4399999999999995\t7.5\n2.57\t11.5\n1.22\t7.0\n4.29\t14.5\n2.77\t10.5\n2.54\t10.5\n0.6500000000000001\t4.0\n13.380000000000003\t37.5\n16.61\t52.0\n2.21\t10.0\n1.8899999999999997\t7.5\n0.21000000000000002\t9.0\n1.25\t6.5\n0.91\t5.0\n4.22\t18.5\n8.58\t27.0\n1.3899999999999997\t6.5\n20.31\t72.0\n3.23\t12.0\n2.51\t8.5\n2.22\t9.5\n4.9\t15.5\n0.09000000000000002\t5.0\n1.37\t6.0\n3.07\t13.0\n2.9699999999999998\t11.0\n3.8599999999999994\t13.0\n19.449999999999996\t52.0\n0.77\t5.0\n2.75\t9.5\n1.54\t6.5\n0.53\t4.0\n17.52\t52.0\n2.19\t8.0\n6.92\t21.5\n1.27\t7.0\n3.08\t11.0\n1.9299999999999997\t8.0\n1.6399999999999997\t7.5\n1.35\t7.0\n0.9600000000000001\t4.5\n2.48\t9.5\n0.67\t4.0\n0.9\t5.5\n3.64\t12.5\n3.25\t12.0\n1.33\t6.0\n1.55\t6.5\n3.56\t12.5\n0.56\t3.5\n0.91\t5.0\n5.1899999999999995\t20.0\n2.13\t8.0\n3.79\t14.5\n10.229999999999999\t29.5\n4.72\t16.0\n11.51\t35.5\n8.639999999999999\t24.0\n1.6899999999999997\t6.5\n9.58\t30.5\n2.8699999999999997\t11.5\n2.8699999999999997\t13.5\n2.21\t8.5\n4.1899999999999995\t14.0\n1.9700000000000002\t9.0\n1.53\t8.0\n2.52\t11.0\n2.24\t9.5\n1.01\t5.0\n1.3899999999999997\t6.0\n5.1\t17.5\n3.9499999999999997\t13.5\n3.02\t11.5\n5.77\t21.5\n1.3\t7.0\n4.01\t14.5\n4.35\t14.5\n1.23\t6.5\n4.859999999999999\t16.5\n2.22\t10.0\n3.11\t11.0\n2.27\t9.0\n3.8199999999999994\t14.5\n1.57\t7.5\n1.29\t6.0\n3.14\t10.5\n1.6\t7.5\n1.52\t8.0\n4.28\t16.0\n0.6100000000000001\t4.5\n1.46\t8.0\n4.629999999999999\t18.5\n1.4299999999999995\t7.5\n0.67\t5.0\n0.57\t4.0\n2.9899999999999998\t11.5\n2.73\t10.0\n1.2\t6.5\n0.93\t5.5\n0.99\t6.0\n2.05\t9.5\n1.12\t6.0\n1.07\t6.0\n3.3799999999999994\t12.5\n3.71\t12.5\n1.1\t6.0\n3.07\t12.0\n5.18\t16.0\n0.55\t4.5\n0.94\t5.5\n0.82\t5.0\n5.91\t21.0\n8.21\t28.5\n1.22\t6.5\n1.6499999999999997\t7.0\n3.5\t14.0\n5.1499999999999995\t19.0\n1.9500000000000002\t8.5\n0.24000000000000002\t10.0\n4.96\t16.5\n1.28\t6.5\n1.6399999999999997\t7.5\n0.98\t6.0\n2.76\t11.0\n1.76\t7.5\n1.28\t6.5\n0.8\t5.5\n0.4\t3.5\n4.45\t14.5\n5.99\t19.0\n0.6300000000000001\t5.0\n9.670000000000003\t29.0\n0.8400000000000001\t5.5\n1.08\t5.0\n4.85\t17.5\n1.45\t8.0\n2.58\t9.5\n0.79\t4.0\n1.59\t8.0\n2.79\t11.5\n1.24\t6.5\n0.67\t4.5\n6.319999999999999\t20.0\n8.170000000000003\t24.0\n4.79\t16.5\n8.010000000000002\t28.5\n4.1\t17.0\n2.08\t10.5\n2.3399999999999994\t10.5\n0.94\t6.0\n3.1\t12.0\n2.4399999999999995\t9.5\n1.12\t6.0\n6.68\t24.5\n7.38\t21.5\n0.6600000000000001\t5.0\n4.59\t16.0\n3.71\t15.5\n1.25\t6.5\n0.78\t5.0\n1.8999999999999997\t9.0\n4.38\t16.5\n0.7200000000000001\t5.0\n2.08\t9.5\n1.8899999999999997\t7.0\n4.38\t17.0\n0.7200000000000001\t5.0\n3.12\t11.0\n1.5\t8.0\n2.23\t8.5\n2.56\t10.0\n1.22\t5.5\n0.9500000000000001\t5.0\n1.3\t7.5\n2.51\t10.5\n0.89\t5.5\n4.07\t15.5\n2.3399999999999994\t12.0\n0.10000000000000002\t6.0\n0.8600000000000001\t5.0\n10.69\t30.5\n2.0\t8.5\n7.33\t24.5\n2.4199999999999995\t9.5\n3.9099999999999997\t13.5\n0.57\t4.5\n1.8\t8.0\n9.540000000000001\t29.0\n0.6600000000000001\t4.5\n10.07\t32.0\n7.57\t24.5\n4.2\t16.5\n3.67\t12.0\n17.14\t46.5\n1.29\t6.5\n0.8300000000000001\t6.0\n1.77\t8.5\n1.09\t5.5\n1.05\t5.5\n1.75\t11.5\n10.27\t30.5\n2.3599999999999994\t10.0\n0.9\t5.0\n1.2\t6.5\n5.55\t20.5\n0.11\t5.5\n1.6899999999999997\t7.0\n1.6799999999999997\t9.5\n2.4299999999999997\t8.5\n5.71\t24.0\n0.3000000000000001\t4.5\n1.1699999999999997\t6.0\n2.28\t8.5\n1.9199999999999997\t8.5\n4.819999999999999\t15.5\n8.65\t29.5\n11.050000000000002\t31.5\n2.5\t9.5\n2.0\t8.5\n1.23\t6.5\n3.4899999999999998\t14.5\n2.6\t9.5\n0.93\t5.5\n4.53\t15.5\n1.6799999999999997\t8.0\n1.9900000000000002\t8.5\n0.7100000000000001\t5.0\n3.9399999999999995\t16.0\n0.29000000000000004\t3.0\n1.59\t7.5\n0.93\t5.0\n1.1399999999999997\t6.5\n3.8899999999999997\t14.5\n1.7\t7.0\n0.35000000000000003\t3.5\n1.6599999999999997\t7.0\n1.9600000000000002\t8.5\n2.68\t10.5\n2.24\t8.5\n0.7300000000000001\t4.0\n0.9600000000000001\t5.0\n1.85\t8.0\n1.08\t6.0\n11.970000000000002\t32.5\n1.6899999999999997\t8.5\n3.74\t13.0\n1.7\t7.0\n1.77\t7.0\n0.9600000000000001\t5.5\n1.24\t5.5\n18.23\t67.5\n1.06\t5.5\n1.1\t6.0\n6.0\t19.5\n0.51\t3.5\n1.6699999999999997\t8.0\n0.9500000000000001\t6.0\n1.7\t7.5\n0.7500000000000001\t5.0\n1.83\t7.5\n1.6899999999999997\t7.5\n1.5\t8.0\n1.9399999999999997\t8.5\n5.41\t17.5\n1.47\t8.0\n2.03\t8.5\n0.3600000000000001\t3.5\n2.4499999999999997\t8.5\n5.1499999999999995\t16.5\n1.82\t9.5\n9.510000000000002\t27.5\n35.970000000000006\t93.5\n2.53\t9.5\n18.21\t52.0\n0.25\t3.0\n2.2\t9.5\n7.03\t21.0\n16.27\t44.5\n5.49\t19.0\n3.64\t12.5\n2.9399999999999995\t11.0\n4.6\t15.0\n1.6599999999999997\t9.0\n0.46\t3.5\n5.5\t19.0\n1.73\t7.5\n1.1399999999999997\t6.5\n3.08\t11.5\n0.98\t6.0\n1.52\t7.0\n2.04\t7.5\n0.8300000000000001\t4.5\n7.38\t25.0\n8.170000000000003\t24.0\n0.9600000000000001\t5.5\n1.8899999999999997\t8.5\n22.5\t66.0\n1.12\t6.0\n1.1\t5.0\n1.02\t5.0\n5.33\t19.0\n1.3999999999999997\t7.5\n7.25\t23.5\n2.01\t8.0\n2.4299999999999997\t9.5\n1.77\t9.5\n8.790000000000001\t28.5\n0.56\t4.5\n2.06\t8.5\n4.68\t16.5\n4.659999999999999\t15.0\n6.39\t21.0\n2.51\t11.5\n1.74\t7.0\n1.49\t7.5\n0.91\t5.5\n1.1899999999999997\t6.5\n6.47\t24.0\n2.73\t11.0\n4.41\t21.0\n1.52\t7.5\n1.27\t5.5\n1.21\t6.5\n1.7\t7.5\n1.86\t7.0\n1.01\t6.0\n1.8799999999999997\t9.5\n1.27\t7.5\n1.02\t5.5\n3.3899999999999997\t13.5\n8.110000000000001\t24.5\n4.77\t16.5\n1.03\t5.0\n2.54\t11.5\n1.24\t6.5\n1.52\t6.5\n4.78\t18.0\n4.319999999999999\t15.0\n2.25\t10.0\n0.79\t5.0\n1.11\t6.0\n1.33\t6.5\n3.62\t12.0\n2.67\t11.0\n1.51\t7.0\n1.61\t8.5\n0.24000000000000002\t3.0\n3.08\t12.0\n1.6899999999999997\t7.5\n2.76\t11.5\n4.53\t16.0\n2.56\t11.0\n1.11\t5.5\n17.57\t49.0\n4.26\t14.0\n3.9099999999999997\t13.5\n5.43\t17.0\n6.35\t22.5\n3.76\t12.0\n0.58\t5.0\n1.54\t6.5\n2.24\t11.5\n1.58\t9.5\n1.6799999999999997\t8.5\n5.89\t18.5\n2.68\t10.0\n0.98\t7.0\n1.82\t8.0\n0.9500000000000001\t6.0\n0.8500000000000001\t6.0\n1.5\t7.5\n1.6599999999999997\t6.5\n0.59\t5.5\n0.9500000000000001\t5.5\n18.06\t52.0\n3.55\t13.0\n5.129999999999999\t18.0\n4.41\t14.0\n8.540000000000001\t29.5\n0.8600000000000001\t5.0\n2.9199999999999995\t14.5\n5.629999999999999\t20.0\n10.360000000000003\t31.5\n1.6499999999999997\t8.5\n0.87\t5.5\n1.26\t6.5\n4.83\t15.5\n3.06\t11.0\n0.79\t5.0\n0.81\t6.5\n1.01\t5.5\n4.3\t15.0\n1.73\t7.5\n1.58\t8.5\n3.3799999999999994\t12.5\n0.5\t4.0\n0.89\t5.5\n3.59\t12.0\n0.67\t4.5\n0.7300000000000001\t4.5\n2.54\t10.0\n11.27\t31.0\n0.9600000000000001\t6.5\n1.05\t6.0\n2.79\t10.5\n10.01\t33.5\n3.3399999999999994\t12.0\n1.6299999999999997\t8.0\n1.9500000000000002\t9.0\n2.8899999999999997\t11.0\n4.94\t19.5\n2.17\t9.5\n1.34\t7.5\n0.68\t5.0\n7.159999999999999\t25.0\n2.59\t13.0\n3.1\t10.5\n0.41000000000000003\t3.5\n3.73\t16.5\n2.52\t11.0\n6.92\t24.5\n0.7000000000000001\t5.0\n2.11\t8.0\n1.6\t7.0\n1.6899999999999997\t8.0\n1.33\t6.5\n5.71\t19.0\n3.04\t10.5\n5.47\t20.5\n5.48\t17.0\n5.99\t21.5\n3.48\t14.0\n1.8\t7.0\n1.21\t7.0\n1.6599999999999997\t7.5\n19.76\t52.0\n2.3899999999999997\t8.5\n1.05\t5.0\n0.53\t4.5\n2.07\t8.5\n2.9299999999999997\t11.0\n0.57\t4.5\n4.109999999999999\t15.5\n0.6600000000000001\t4.5\n5.05\t18.0\n7.59\t23.0\n5.14\t18.0\n8.719999999999999\t24.5\n0.58\t5.0\n6.1899999999999995\t21.5\n2.66\t10.0\n16.949999999999996\t52.0\n0.88\t4.5\n1.55\t6.5\n0.7400000000000001\t5.0\n1.9399999999999997\t8.5\n0.92\t5.0\n1.1699999999999997\t5.5\n3.8899999999999997\t14.5\n3.8199999999999994\t13.0\n0.79\t5.0\n4.27\t15.5\n0.48000000000000004\t4.0\n0.77\t5.5\n5.1\t17.0\n2.16\t9.0\n1.55\t7.5\n1.32\t6.0\n1.6599999999999997\t8.0\n4.319999999999999\t14.5\n2.61\t12.0\n1.1599999999999997\t7.0\n3.3099999999999996\t13.0\n2.7\t12.0\n5.169999999999999\t20.0\n2.62\t9.5\n0.47000000000000003\t6.0\n1.58\t9.5\n3.15\t10.5\n4.92\t16.0\n0.8300000000000001\t5.0\n3.9199999999999995\t14.0\n2.56\t10.0\n3.4199999999999995\t13.0\n7.57\t25.5\n0.29000000000000004\t14.0\n1.73\t9.5\n0.7500000000000001\t5.0\n1.22\t5.5\n3.3999999999999995\t13.0\n1.03\t6.0\n0.92\t4.5\n2.8999999999999995\t14.5\n0.89\t5.5\n1.8799999999999997\t9.5\n2.71\t11.0\n0.87\t5.0\n1.29\t7.5\n2.28\t9.5\n0.13\t6.0\n5.57\t18.5\n1.4099999999999995\t7.0\n2.8799999999999994\t11.0\n2.3799999999999994\t8.5\n7.669999999999999\t52.0\n0.6200000000000001\t4.0\n1.8899999999999997\t8.5\n17.279999999999998\t52.0\n2.16\t8.5\n13.16\t37.0\n9.100000000000001\t26.0\n1.02\t6.5\n2.68\t11.0\n2.4299999999999997\t10.5\n2.27\t8.5\n0.99\t6.0\n1.33\t7.0\n0.77\t4.5\n3.06\t11.5\n1.1\t6.5\n0.7000000000000001\t4.0\n17.93\t52.0\n6.359999999999999\t19.0\n2.51\t10.5\n2.14\t8.0\n1.6799999999999997\t7.5\n2.6\t11.5\n7.34\t24.0\n0.3000000000000001\t3.5\n4.96\t16.0\n1.0\t5.5\n2.02\t9.0\n2.3699999999999997\t8.5\n0.8\t4.5\n2.25\t8.5\n1.61\t8.0\n2.8399999999999994\t11.0\n4.04\t13.0\n2.59\t10.0\n0.45\t4.0\n1.2\t6.0\n1.6699999999999997\t7.0\n1.9299999999999997\t10.0\n1.9299999999999997\t8.5\n1.4099999999999995\t6.5\n0.7000000000000001\t4.5\n2.8\t10.5\n2.9099999999999997\t12.0\n4.59\t18.0\n2.24\t9.0\n0.81\t5.0\n1.3\t6.5\n0.99\t6.0\n1.12\t5.5\n5.77\t18.0\n7.58\t23.5\n0.6\t4.5\n0.53\t4.5\n0.4300000000000001\t3.5\n1.4399999999999995\t7.0\n1.21\t6.5\n0.25\t9.5\n0.48000000000000004\t4.5\n5.53\t19.0\n1.0\t5.5\n2.58\t9.5\n0.6300000000000001\t4.5\n9.270000000000001\t28.5\n1.71\t9.0\n0.92\t5.5\n2.68\t10.0\n1.1799999999999997\t5.5\n11.64\t32.5\n6.08\t18.5\n0.6500000000000001\t5.0\n19.170000000000005\t70.5\n1.76\t7.0\n5.29\t18.5\n5.109999999999999\t17.5\n0.7300000000000001\t4.0\n12.860000000000003\t37.0\n0.52\t4.0\n1.72\t7.0\n2.58\t9.0\n2.18\t10.0\n10.6\t29.5\n0.8\t4.5\n1.04\t6.0\n2.98\t12.5\n26.06\t72.5\n0.52\t4.5\n1.3799999999999997\t7.0\n1.9600000000000002\t10.5\n3.24\t12.5\n1.46\t7.0\n3.09\t11.0\n6.31\t20.5\n4.53\t16.0\n0.99\t5.5\n1.8799999999999997\t8.5\n7.5\t21.5\n1.81\t9.5\n1.1\t5.5\n4.71\t17.0\n0.94\t6.5\n2.4899999999999998\t11.5\n2.09\t8.5\n0.7000000000000001\t5.0\n2.17\t9.0\n1.07\t7.0\n2.1\t9.5\n3.57\t13.5\n0.8400000000000001\t5.0\n1.48\t8.0\n2.06\t10.5\n3.9899999999999998\t13.5\n1.6599999999999997\t7.5\n1.1399999999999997\t7.5\n3.08\t12.5\n0.7500000000000001\t4.0\n0.6\t4.0\n1.12\t5.5\n2.9199999999999995\t10.0\n1.05\t5.5\n10.02\t31.0\n6.819999999999999\t23.0\n0.02\t2.5\n1.09\t6.0\n1.46\t6.5\n0.88\t5.0\n2.78\t11.5\n1.05\t6.5\n2.55\t12.0\n2.3099999999999996\t10.0\n1.08\t6.0\n0.8300000000000001\t4.5\n0.6400000000000001\t4.0\n2.46\t9.5\n0.9\t5.0\n1.21\t6.5\n6.669999999999999\t20.5\n1.21\t6.0\n0.6600000000000001\t4.5\n0.8300000000000001\t4.5\n16.439999999999998\t52.0\n1.4399999999999995\t8.5\n2.16\t9.5\n5.07\t17.0\n2.8799999999999994\t10.5\n0.99\t6.0\n1.32\t6.0\n1.1899999999999997\t6.5\n2.5\t9.5\n3.8799999999999994\t14.5\n8.239999999999998\t23.0\n0.9500000000000001\t6.5\n0.6\t4.5\n0.9\t4.5\n0.8\t4.5\n4.01\t14.0\n0.11\t7.0\n0.9600000000000001\t5.0\n2.77\t10.5\n1.6299999999999997\t9.0\n1.11\t6.5\n1.53\t8.0\n1.34\t8.0\n0.29000000000000004\t3.5\n2.23\t9.5\n0.0\t3.0\n25.949999999999996\t82.5\n4.77\t18.0\n0.6100000000000001\t4.0\n2.4699999999999998\t9.0\n2.4499999999999997\t9.5\n2.8499999999999996\t11.0\n1.9399999999999997\t8.5\n1.1799999999999997\t6.0\n3.77\t13.5\n5.56\t20.0\n1.27\t7.0\n0.82\t5.0\n3.28\t11.0\n1.08\t6.0\n2.9499999999999997\t11.0\n1.33\t5.5\n2.64\t9.5\n1.3799999999999997\t7.0\n0.31000000000000005\t3.0\n0.26\t3.0\n1.36\t6.5\n1.1499999999999997\t5.0\n2.3099999999999996\t9.0\n1.59\t7.5\n2.04\t8.5\n9.870000000000003\t28.5\n1.6\t8.0\n1.6699999999999997\t7.0\n1.75\t8.0\n0.10000000000000002\t3.0\n2.16\t8.5\n5.53\t18.5\n3.03\t11.0\n11.84\t32.5\n1.5\t6.5\n2.03\t8.0\n7.39\t24.0\n2.55\t9.0\n8.31\t24.5\n2.3699999999999997\t9.0\n5.49\t18.0\n2.4299999999999997\t10.0\n2.71\t11.0\n5.09\t16.5\n0.0\t58.0\n4.91\t16.0\n1.53\t6.5\n1.9900000000000002\t7.0\n3.19\t12.0\n1.36\t7.0\n1.9299999999999997\t8.0\n0.6600000000000001\t4.5\n0.3000000000000001\t3.0\n1.81\t7.5\n1.9099999999999997\t8.0\n5.23\t16.0\n2.3\t9.0\n1.58\t7.0\n0.58\t5.0\n0.42000000000000004\t3.5\n0.0\t2.5\n0.77\t4.5\n4.83\t18.5\n0.38000000000000006\t4.0\n6.159999999999999\t19.5\n1.49\t6.5\n6.58\t20.5\n1.1599999999999997\t6.0\n0.59\t4.0\n19.54\t52.0\n3.15\t10.5\n2.25\t9.0\n6.29\t28.0\n0.3600000000000001\t3.5\n0.87\t5.0\n1.57\t6.5\n1.05\t6.5\n6.22\t20.5\n1.59\t7.0\n0.79\t4.0\n0.39000000000000007\t3.5\n5.64\t18.5\n0.22\t9.0\n1.37\t6.5\n2.3299999999999996\t10.0\n0.9600000000000001\t5.0\n0.41000000000000003\t3.5\n1.87\t9.0\n0.7200000000000001\t5.0\n3.3799999999999994\t12.5\n2.3899999999999997\t9.0\n3.3899999999999997\t12.5\n1.4099999999999995\t7.5\n4.37\t16.5\n9.190000000000001\t28.5\n2.55\t9.5\n2.52\t12.5\n1.2\t6.5\n0.82\t7.5\n3.1\t13.5\n3.9399999999999995\t17.0\n1.11\t7.0\n8.57\t24.0\n1.21\t6.5\n2.3599999999999994\t9.5\n4.21\t15.0\n0.6300000000000001\t4.0\n0.3600000000000001\t13.0\n13.66\t37.5\n8.700000000000001\t24.5\n2.6\t10.5\n3.61\t12.5\n3.02\t10.0\n0.52\t4.0\n0.8\t5.0\n14.390000000000002\t52.0\n3.8699999999999997\t13.0\n1.21\t6.0\n0.46\t4.0\n5.2\t19.0\n1.1399999999999997\t5.5\n1.04\t5.5\n1.3999999999999997\t6.0\n1.07\t5.5\n2.58\t9.0\n3.07\t11.0\n0.99\t6.5\n3.0\t11.5\n1.46\t6.0\n1.07\t6.0\n2.28\t8.5\n1.6299999999999997\t7.0\n1.3999999999999997\t7.0\n3.79\t13.0\n3.28\t13.0\n7.91\t24.0\n5.27\t17.5\n1.79\t7.5\n1.23\t5.5\n0.0\t2.5\n19.03\t52.0\n1.32\t6.5\n4.18\t15.5\n20.93\t52.0\n0.8500000000000001\t4.5\n0.7000000000000001\t4.5\n2.62\t9.0\n3.63\t12.5\n2.61\t9.0\n3.74\t12.0\n9.88\t28.5\n10.99\t30.5\n0.67\t4.5\n0.6\t4.5\n1.1899999999999997\t6.0\n6.609999999999999\t20.0\n0.82\t4.5\n3.67\t15.0\n1.9099999999999997\t7.5\n1.52\t7.5\n7.58\t22.0\n0.82\t5.0\n2.3599999999999994\t9.0\n0.8400000000000001\t4.5\n3.8\t14.0\n0.7300000000000001\t5.0\n1.22\t6.5\n0.6500000000000001\t5.5\n2.3199999999999994\t10.0\n0.8400000000000001\t4.5\n2.06\t7.5\n0.6100000000000001\t4.5\n1.06\t5.0\n1.86\t8.0\n4.55\t17.0\n0.37000000000000005\t3.5\n1.02\t7.5\n0.52\t4.0\n0.68\t5.0\n0.6100000000000001\t4.0\n3.1\t12.0\n4.25\t14.5\n1.3899999999999997\t7.0\n1.8799999999999997\t8.0\n2.18\t8.5\n2.8\t11.5\n2.4899999999999998\t10.5\n32.5\t88.0\n3.19\t11.5\n3.03\t11.0\n2.3999999999999995\t9.5\n6.359999999999999\t22.5\n0.93\t6.0\n2.8299999999999996\t11.5\n"
+          },
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"result-alert alert-warning\" role\u003d\"alert\"\u003e\u003cbutton type\u003d\"button\" class\u003d\"close\" data-dismiss\u003d\"alert\" aria-label\u003d\"Close\"\u003e\u003cspan aria-hidden\u003d\"true\"\u003e\u0026times;\u003c/span\u003e\u003c/button\u003e\u003cstrong\u003eOutput is truncated\u003c/strong\u003e to 1000 rows. Learn more about \u003cstrong\u003ezeppelin.spark.maxResult\u003c/strong\u003e\u003c/div\u003e\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d3"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515440_2022829659",
+      "id": "paragraph_1656841759970_387141407",
+      "dateCreated": "2022-07-05 15:51:55.440",
+      "dateStarted": "2022-07-05 16:09:08.181",
+      "dateFinished": "2022-07-05 16:09:08.417",
+      "status": "FINISHED"
+    },
+    {
+      "text": "//Create transformer\n// feature column names\nval featureCols \u003d Array(\"passenger_count\",\"trip_distance\", \"pickup_longitude\",\"pickup_latitude\",\"rate_code\",\"dropoff_longitude\", \"dropoff_latitude\", \"hour\", \"day_of_week\",\"is_weekend\")\n\n//put features into a feature vector column   \nval assembler \u003d new\nVectorAssembler().setInputCols(featureCols).setOutputCol(\"rawfeatures\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:09:08.481",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mfeatureCols\u001b[0m: \u001b[1m\u001b[32mArray[String]\u001b[0m \u003d Array(passenger_count, trip_distance, pickup_longitude, pickup_latitude, rate_code, dropoff_longitude, dropoff_latitude, hour, day_of_week, is_weekend)\n\u001b[1m\u001b[34massembler\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.feature.VectorAssembler\u001b[0m \u003d VectorAssembler: uid\u003dvecAssembler_9a3d23a6a73d, handleInvalid\u003derror, numInputCols\u003d10\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515441_1752746036",
+      "id": "paragraph_1656841804637_823417750",
+      "dateCreated": "2022-07-05 15:51:55.441",
+      "dateStarted": "2022-07-05 16:09:08.486",
+      "dateFinished": "2022-07-05 16:09:08.995",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val scaler \u003d new\nStandardScaler().setInputCol(\"rawfeatures\").setOutputCol(\"features\").setWithStd(true).setWithMean(true)\n\nval rf \u003d new\nRandomForestRegressor().setLabelCol(\"fare_amount\").setFeaturesCol(\"features\")",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:09:09.086",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mscaler\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.feature.StandardScaler\u001b[0m \u003d stdScal_c984884c5bec\n\u001b[1m\u001b[34mrf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.regression.RandomForestRegressor\u001b[0m \u003d rfr_10327c5c5045\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515441_1538780256",
+      "id": "paragraph_1656843724886_1082186852",
+      "dateCreated": "2022-07-05 15:51:55.441",
+      "dateStarted": "2022-07-05 16:09:09.089",
+      "dateFinished": "2022-07-05 16:09:09.630",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val steps \u003d  Array(assembler, scaler, rf)\n\nval pipeline \u003d new Pipeline().setStages(steps)",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:09:09.690",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34msteps\u001b[0m: \u001b[1m\u001b[32mArray[org.apache.spark.ml.PipelineStage with org.apache.spark.ml.util.DefaultParamsWritable{def copy(extra: org.apache.spark.ml.param.ParamMap): org.apache.spark.ml.PipelineStage with org.apache.spark.ml.util.DefaultParamsWritable{def copy(extra: org.apache.spark.ml.param.ParamMap): org.apache.spark.ml.PipelineStage with org.apache.spark.ml.util.DefaultParamsWritable}}]\u001b[0m \u003d Array(VectorAssembler: uid\u003dvecAssembler_9a3d23a6a73d, handleInvalid\u003derror, numInputCols\u003d10, stdScal_c984884c5bec, rfr_10327c5c5045)\n\u001b[1m\u001b[34mpipeline\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.Pipeline\u001b[0m \u003d pipeline_6fd6b045b3f7\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515441_1881866826",
+      "id": "paragraph_1656845096724_939197296",
+      "dateCreated": "2022-07-05 15:51:55.441",
+      "dateStarted": "2022-07-05 16:09:09.695",
+      "dateFinished": "2022-07-05 16:09:10.316",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val paramGrid \u003d new ParamGridBuilder()\n      .addGrid(rf.maxBins, Array(100, 200))\n      .addGrid(rf.maxDepth, Array(2, 7, 10))\n      .addGrid(rf.numTrees, Array(5, 20))\n      .build()\n\nval evaluator \u003d new RegressionEvaluator()\n  .setLabelCol(\"fare_amount\")\n  .setPredictionCol(\"prediction\")\n  .setMetricName(\"rmse\")\n\nval crossvalidator \u003d new CrossValidator()\n    .setEstimator(pipeline)\n    .setEvaluator(evaluator)\n    .setEstimatorParamMaps(paramGrid)\n    .setNumFolds(3)\n\n// fit the training data set and return a model\nval pipelineModel \u003d crossvalidator.fit(tdf)",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:09:10.395",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mparamGrid\u001b[0m: \u001b[1m\u001b[32mArray[org.apache.spark.ml.param.ParamMap]\u001b[0m \u003d\nArray({\n\trfr_10327c5c5045-maxBins: 100,\n\trfr_10327c5c5045-maxDepth: 2,\n\trfr_10327c5c5045-numTrees: 5\n}, {\n\trfr_10327c5c5045-maxBins: 100,\n\trfr_10327c5c5045-maxDepth: 2,\n\trfr_10327c5c5045-numTrees: 20\n}, {\n\trfr_10327c5c5045-maxBins: 100,\n\trfr_10327c5c5045-maxDepth: 7,\n\trfr_10327c5c5045-numTrees: 5\n}, {\n\trfr_10327c5c5045-maxBins: 100,\n\trfr_10327c5c5045-maxDepth: 7,\n\trfr_10327c5c5045-numTrees: 20\n}, {\n\trfr_10327c5c5045-maxBins: 100,\n\trfr_10327c5c5045-maxDepth: 10,\n\trfr_10327c5c5045-numTrees: 5\n}, {\n\trfr_10327c5c5045-maxBins: 100,\n\trfr_10327c5c5045-maxDepth: 10,\n\trfr_10327c5c5045-numTrees: 20\n}, {\n\trfr_10327c5c5045-maxBins: 200,\n\trfr_10327c5c5045-maxDepth: 2,\n\trfr_10327c5c5045-numTrees: 5\n}, {\n\trfr_10327c5c5045...\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d4"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d5"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d6"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d7"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d8"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d9"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d10"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d11"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d12"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d13"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d14"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d15"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d16"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d17"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d18"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d19"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d20"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d21"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d22"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d23"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d24"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d25"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d26"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d27"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d28"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d29"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d30"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d31"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d32"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d33"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d34"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d35"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d36"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d37"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d38"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d39"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d40"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d41"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d42"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d43"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d44"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d45"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d46"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d47"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d48"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d49"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d50"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d51"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d52"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d53"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d54"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d55"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d56"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d57"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d58"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d59"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d60"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d61"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d62"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d63"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d64"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d65"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d66"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d67"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d68"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d69"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d70"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d71"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d72"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d73"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d74"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d75"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d76"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d77"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d78"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d79"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d80"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d81"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d82"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d83"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d84"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d85"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d86"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d87"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d88"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d89"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d90"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d91"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d92"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d93"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d94"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d95"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d96"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d97"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d98"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d99"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d100"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d101"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d102"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d103"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d104"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d105"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d106"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d107"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d108"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d109"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d110"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d111"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d112"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d113"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d114"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d115"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d116"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d117"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d118"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d119"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d120"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d121"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d122"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d123"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d124"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d125"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d126"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d127"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d128"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d129"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d130"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d131"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d132"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d133"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d134"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d135"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d136"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d137"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d138"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d139"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d140"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d141"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d142"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d143"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d144"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d145"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d146"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d147"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d148"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d149"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d150"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d151"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d152"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d153"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d154"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d155"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d156"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d157"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d158"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d159"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d160"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d161"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d162"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d163"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d164"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d165"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d166"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d167"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d168"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d169"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d170"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d171"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d172"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d173"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d174"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d175"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d176"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d177"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d178"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d179"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d180"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d181"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d182"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d183"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d184"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d185"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d186"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d187"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d188"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d189"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d190"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d191"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d192"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d193"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d194"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d195"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d196"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d197"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d198"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d199"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d200"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d201"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d202"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d203"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d204"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d205"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d206"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d207"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d208"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d209"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d210"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d211"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d212"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d213"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d214"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d215"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d216"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d217"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d218"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d219"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d220"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d221"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d222"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d223"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d224"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d225"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d226"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d227"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d228"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d229"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d230"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d231"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d232"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d233"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d234"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d235"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d236"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d237"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d238"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d239"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d240"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d241"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d242"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d243"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d244"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d245"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d246"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d247"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d248"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d249"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d250"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d251"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d252"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d253"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d254"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d255"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d256"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d257"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d258"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d259"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d260"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d261"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d262"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d263"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d264"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d265"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d266"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d267"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d268"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d269"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d270"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d271"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d272"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d273"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d274"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d275"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d276"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d277"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d278"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d279"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d280"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d281"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d282"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d283"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d284"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d285"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d286"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d287"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d288"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d289"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d290"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d291"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d292"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d293"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d294"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d295"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d296"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d297"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d298"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d299"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d300"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d301"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d302"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d303"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d304"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d305"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d306"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d307"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d308"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d309"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d310"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d311"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d312"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d313"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d314"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d315"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d316"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d317"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d318"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d319"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d320"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d321"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d322"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d323"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d324"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d325"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d326"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d327"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d328"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d329"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d330"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d331"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d332"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d333"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d334"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d335"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d336"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d337"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d338"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d339"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d340"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d341"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d342"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d343"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d344"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d345"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d346"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d347"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d348"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d349"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d350"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d351"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d352"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d353"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d354"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d355"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d356"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d357"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d358"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d359"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d360"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d361"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d362"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d363"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d364"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d365"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d366"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d367"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d368"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d369"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d370"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d371"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d372"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d373"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d374"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d375"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d376"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d377"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d378"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d379"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d380"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d381"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d382"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d383"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d384"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d385"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d386"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d387"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d388"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d389"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d390"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d391"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d392"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d393"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d394"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d395"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d396"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d397"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d398"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d399"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d400"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d401"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d402"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d403"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d404"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d405"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d406"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d407"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d408"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d409"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d410"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d411"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d412"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d413"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d414"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d415"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d416"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d417"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d418"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d419"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d420"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d421"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d422"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d423"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d424"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d425"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d426"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d427"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d428"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d429"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d430"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d431"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d432"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d433"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d434"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d435"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d436"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d437"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d438"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d439"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d440"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d441"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d442"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d443"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d444"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d445"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d446"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d447"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d448"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d449"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d450"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d451"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d452"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d453"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d454"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d455"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d456"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d457"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d458"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d459"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d460"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d461"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d462"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515441_1863318457",
+      "id": "paragraph_1656841896670_540239950",
+      "dateCreated": "2022-07-05 15:51:55.441",
+      "dateStarted": "2022-07-05 16:09:10.400",
+      "dateFinished": "2022-07-05 16:10:10.127",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val featureImportances \u003d pipelineModel\n      .bestModel.asInstanceOf[PipelineModel]\n      .stages(2)\n      .asInstanceOf[RandomForestRegressionModel]\n      .featureImportances \n\nassembler.getInputCols\n      .zip(featureImportances.toArray)\n      .sortBy(-_._2)\n      .foreach { case (feat, imp) \u003d\u003e \n      println(s\"feature: $feat, importance: $imp\") }",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:10:10.174",
+      "progress": 0,
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "feature: trip_distance, importance: 0.6936878695426991\nfeature: rate_code, importance: 0.11895363758296282\nfeature: dropoff_longitude, importance: 0.09310711004948798\nfeature: pickup_longitude, importance: 0.03423385857443006\nfeature: pickup_latitude, importance: 0.029179131094492706\nfeature: dropoff_latitude, importance: 0.0221962991509804\nfeature: hour, importance: 0.0069642595110499085\nfeature: passenger_count, importance: 0.001612706436032259\nfeature: is_weekend, importance: 3.317485987429227E-5\nfeature: day_of_week, importance: 3.1953197990395126E-5\n\u001b[1m\u001b[34mfeatureImportances\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.linalg.Vector\u001b[0m \u003d (10,[0,1,2,3,4,5,6,7,8,9],[0.001612706436032259,0.6936878695426991,0.03423385857443006,0.029179131094492706,0.11895363758296282,0.09310711004948798,0.0221962991509804,0.0069642595110499085,3.1953197990395126E-5,3.317485987429227E-5])\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515441_920801029",
+      "id": "paragraph_1656845448464_1548547659",
+      "dateCreated": "2022-07-05 15:51:55.441",
+      "dateStarted": "2022-07-05 16:10:10.176",
+      "dateFinished": "2022-07-05 16:10:11.152",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val bestEstimatorParamMap \u003d pipelineModel\n      .getEstimatorParamMaps\n      .zip(pipelineModel.avgMetrics)\n      .maxBy(_._2)\n      ._1\nprintln(s\"Best params:\\n$bestEstimatorParamMap\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:10:11.177",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Best params:\n{\n\trfr_10327c5c5045-maxBins: 100,\n\trfr_10327c5c5045-maxDepth: 2,\n\trfr_10327c5c5045-numTrees: 20\n}\n\u001b[1m\u001b[34mbestEstimatorParamMap\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.param.ParamMap\u001b[0m \u003d\n{\n\trfr_10327c5c5045-maxBins: 100,\n\trfr_10327c5c5045-maxDepth: 2,\n\trfr_10327c5c5045-numTrees: 20\n}\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515442_1198282364",
+      "id": "paragraph_1656845604045_561880706",
+      "dateCreated": "2022-07-05 15:51:55.442",
+      "dateStarted": "2022-07-05 16:10:11.180",
+      "dateFinished": "2022-07-05 16:10:11.629",
+      "status": "FINISHED"
+    },
+    {
+      "text": "var predictions \u003d pipelineModel.transform(edf)\npredictions.select(\"prediction\", \"fare_amount\").show(5)",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:10:11.680",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------------------+-----------+\n|        prediction|fare_amount|\n+------------------+-----------+\n| 5.106883332537594|        5.0|\n| 32.69784269244836|       34.0|\n|  9.12947980163326|       10.0|\n|15.284031500071643|       16.5|\n| 7.571091669614195|        7.0|\n+------------------+-----------+\nonly showing top 5 rows\n\n\u001b[1m\u001b[34mpredictions\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [vendor_id: double, passenger_count: double ... 17 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d463"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515443_1585808350",
+      "id": "paragraph_1656845624069_87854688",
+      "dateCreated": "2022-07-05 15:51:55.443",
+      "dateStarted": "2022-07-05 16:10:11.682",
+      "dateFinished": "2022-07-05 16:10:12.390",
+      "status": "FINISHED"
+    },
+    {
+      "text": "predictions \u003d predictions.withColumn(\"error\",\ncol(\"prediction\")-col(\"fare_amount\"))\n\npredictions.select(\"prediction\", \"fare_amount\", \"error\").show",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:10:12.483",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------------------+-----------+--------------------+\n|        prediction|fare_amount|               error|\n+------------------+-----------+--------------------+\n| 5.106883332537594|        5.0| 0.10688333253759374|\n| 32.69784269244836|       34.0| -1.3021573075516386|\n|  9.12947980163326|       10.0| -0.8705201983667408|\n|15.284031500071643|       16.5| -1.2159684999283566|\n| 7.571091669614195|        7.0|  0.5710916696141952|\n| 5.500214251829578|        7.5| -1.9997857481704218|\n| 6.631434044287498|        5.5|  1.1314340442874977|\n|17.775134211157955|        2.5|  15.275134211157955|\n| 9.340169667136486|        9.5|  -0.159830332863514|\n|12.075998364227852|       12.0| 0.07599836422785167|\n| 7.643703127988855|        8.0|-0.35629687201114457|\n| 6.362021917974785|        5.5|  0.8620219179747846|\n| 8.143805860782155|        8.0|  0.1438058607821553|\n| 5.225131267686749|        5.0|  0.2251312676867494|\n| 8.043541898339662|        7.0|  1.0435418983396616|\n|51.959235511021234|       52.0|-0.04076448897876617|\n| 5.005868833241902|        4.0|  1.0058688332419017|\n| 5.385430758328478|        4.0|  1.3854307583284777|\n| 6.421656624579579|        6.5|-0.07834337542042125|\n|7.2589247278110065|        6.0|  1.2589247278110065|\n+------------------+-----------+--------------------+\nonly showing top 20 rows\n\npredictions: org.apache.spark.sql.DataFrame \u003d [vendor_id: double, passenger_count: double ... 18 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d464"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515443_942210026",
+      "id": "paragraph_1656845639537_2131107662",
+      "dateCreated": "2022-07-05 15:51:55.443",
+      "dateStarted": "2022-07-05 16:10:12.486",
+      "dateFinished": "2022-07-05 16:10:13.182",
+      "status": "FINISHED"
+    },
+    {
+      "text": "predictions.describe(\"prediction\", \"fare_amount\", \"error\").show",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:10:13.186",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-------+------------------+------------------+--------------------+\n|summary|        prediction|       fare_amount|               error|\n+-------+------------------+------------------+--------------------+\n|  count|              1999|              1999|                1999|\n|   mean|12.770795067809111|12.781890945472737|-0.01109587766363...|\n| stddev|10.511309703539215| 10.81571458147917|   1.999901802786862|\n|    min| 4.803784353186192|               2.5|              -41.25|\n|    max|  67.4132132132132|             100.0|  15.275134211157955|\n+-------+------------------+------------------+--------------------+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d465"
+            },
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d466"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515443_118499318",
+      "id": "paragraph_1656845668186_1265375595",
+      "dateCreated": "2022-07-05 15:51:55.443",
+      "dateStarted": "2022-07-05 16:10:13.190",
+      "dateFinished": "2022-07-05 16:10:13.774",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val maevaluator \u003d new RegressionEvaluator()\n  .setLabelCol(\"fare_amount\")\n  .setMetricName(\"mae\")\n\nval mae \u003d maevaluator.evaluate(predictions)",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:10:13.790",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mmaevaluator\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.evaluation.RegressionEvaluator\u001b[0m \u003d RegressionEvaluator: uid\u003dregEval_3f778cfbd9a0, metricName\u003dmae, throughOrigin\u003dfalse\n\u001b[1m\u001b[34mmae\u001b[0m: \u001b[1m\u001b[32mDouble\u001b[0m \u003d 0.9787446276074561\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d467"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515443_509178417",
+      "id": "paragraph_1656845644276_1689142562",
+      "dateCreated": "2022-07-05 15:51:55.443",
+      "dateStarted": "2022-07-05 16:10:13.792",
+      "dateFinished": "2022-07-05 16:10:14.500",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val evaluator \u003d new RegressionEvaluator()\n  .setLabelCol(\"fare_amount\")\n  .setMetricName(\"rmse\")\nval rmse \u003d evaluator.evaluate(predictions)",
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:10:14.593",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mevaluator\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.ml.evaluation.RegressionEvaluator\u001b[0m \u003d RegressionEvaluator: uid\u003dregEval_cf9ad12632ad, metricName\u003drmse, throughOrigin\u003dfalse\n\u001b[1m\u001b[34mrmse\u001b[0m: \u001b[1m\u001b[32mDouble\u001b[0m \u003d 1.9994323032498125\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://172.30.227.194:4040/jobs/job?id\u003d468"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016515443_1605076386",
+      "id": "paragraph_1656845705731_1864121525",
+      "dateCreated": "2022-07-05 15:51:55.443",
+      "dateStarted": "2022-07-05 16:10:14.596",
+      "dateFinished": "2022-07-05 16:10:15.150",
+      "status": "FINISHED"
+    },
+    {
+      "user": "anonymous",
+      "dateUpdated": "2022-07-05 16:10:15.196",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1657016797396_1502469850",
+      "id": "paragraph_1657016797396_1502469850",
+      "dateCreated": "2022-07-05 15:56:37.396",
+      "status": "FINISHED"
+    }
+  ],
+  "name": "EndSem_TAXI",
+  "id": "2H7G8YA93",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "simple",
+    "personalizedMode": "false"
+  },
+  "info": {
+    "isRunning": false
+  }
+}
