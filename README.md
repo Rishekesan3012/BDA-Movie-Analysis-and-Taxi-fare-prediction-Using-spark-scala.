@@ -10,3 +10,9 @@ Spark's support for lazy assessment aids in the optimization of the stages invol
 
 Spark is intended to be a quick, real-time execution engine that can operate on disc and in memory. 
 
+
+
+Authors : 
+
+- [Rishekesan S.V](https://github.com/Rishekesan3012)
+- [Karthikeyan M](https://github.com/karthikeyan1708)
